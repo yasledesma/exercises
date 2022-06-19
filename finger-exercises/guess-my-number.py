@@ -1,24 +1,31 @@
-start_of_range = 5
-end_of_range = 50
-current_range = end_of_range - start_of_range
-guess = current_range / 2
+# I should make this one better in the future.
+print("Think of a number between 0 and 99.")
 
-# while True:
-#     question = input("Enter 'h' to indicate the guess is too high. Enter 'l' to indicate the guess is too low. Enter 'c' to indicate I guessed correctly: ")
+start_of_range = 0
+end_of_range = 100
 
-#     if question == "h":
-#         end_of_range = guess + 1
-#         range = end_of_range - start_of_range
-#     elif question == "l":
-#         start_of_range = guess - 1
-#         range = end_of_range - start_of_range
-#     else:
-#         print("Game over. Your secret number was:", guess)
-#         break
+while True:
+    try:
+        current_range = list()
+        for num in range(start_of_range, end_of_range):
+            current_range.append(num)
+        guess = current_range[int(len(current_range)/2)]
 
-# print("New range:", current_range, "Guess:", guess)
+        question = input(f"Did you think of {guess}? Y(yes), H(high), L(low): ")
 
-for num in range(start_of_range, end_of_range):
-    if num == guess:
-        print(f"Is your guess {num + current_range} (y, l, h)?")
+        if question == "h":
+            end_of_range = guess
+            continue
+        elif question == "l":
+            start_of_range = guess + 1
+            continue
+        elif question == "c":
+            print("Game over. Your secret number was:", guess)
+            break
+        else:
+            continue
+    except:
+        # In case the start and end numbers are the same number, and the array length is reduced to 0.
+        # Otherwise, this would throw an out of range index error and stop the program.
+        print("Game over. Your secret number was", end_of_range)
         break
