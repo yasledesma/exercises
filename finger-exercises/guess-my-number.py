@@ -11,7 +11,7 @@ while True:
             current_range.append(num)
         guess = current_range[int(len(current_range)/2)]
 
-        question = input(f"Did you think of {guess}? Y(yes), H(high), L(low): ")
+        question = input(f"Did you think of {guess}? Y(yes), H(high), L(low): ").lower()
 
         if question == "h":
             end_of_range = guess
@@ -23,6 +23,7 @@ while True:
             print("Game over. Your secret number was:", guess)
             break
         else:
+            print("Sorry, I did not understand your input.")
             continue
     except:
         # In case the start and end numbers are the same number, and the array length is reduced to 0.
