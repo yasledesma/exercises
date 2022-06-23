@@ -7,10 +7,11 @@ end_of_range = 100
 while True:
     try:
         current_range = list()
+        
         for num in range(start_of_range, end_of_range):
             current_range.append(num)
+        
         guess = current_range[int(len(current_range)/2)]
-
         question = input(f"Did you think of {guess}? Y(yes), H(high), L(low): ").lower()
 
         if question == "h":
