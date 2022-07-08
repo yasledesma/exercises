@@ -154,8 +154,13 @@ def updateHand(hand, word):
     hand: dictionary (string -> int)    
     returns: dictionary (string -> int)
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    new_hand = dict(hand)
 
+    for letter in word:
+        if letter in new_hand.keys():
+            new_hand[letter] = new_hand.get(letter, 0) - 1
+
+    return new_hand
 
 
 #
@@ -172,7 +177,19 @@ def isValidWord(word, hand, wordList):
     hand: dictionary (string -> int)
     wordList: list of lowercase strings
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    new_hand = dict(hand)
+
+    for letter in word:
+        if new_hand.get(letter, 0) > 0 and letter in hand.keys():
+            new_hand[letter] = new_hand.get(letter, 0) - 1
+            continue
+        else: 
+            return False
+
+    if word in wordList:
+        return True
+    else:
+        return False
 
 
 #
@@ -186,7 +203,13 @@ def calculateHandlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    # TO DO... <-- Remove this comment when you code this function
+    hand_length = 0
+
+    for key in hand:
+        if hand[key] > 0:
+            hand_length += 1
+
+    return hand_length
 
 
 
