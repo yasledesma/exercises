@@ -243,18 +243,19 @@ def playHand(hand, wordList, n):
 
     while calculateHandlen(new_hand) > 0:
         print(f"Current Hand: {displayHand(new_hand)}")
-        user_input = input('Enter word, or a "." to indicate that you are finished: ')
+        word = input('Enter word, or a "." to indicate that you are finished: ')
 
-        if user_input == ".":
+        if word == ".":
+            print(f"Goodbye! Total score: {total_score} points.")
             break   
         else:
-            if isValidWord(user_input, hand, wordList) == False:
+            if isValidWord(word, hand, wordList) == False:
                 print("Invalid word, please try again.\n")
                 continue
             else:
-                total_score += getWordScore(user_input, n)
-                new_hand = updateHand(new_hand, user_input)
-                print(f"{user_input} earned {getWordScore(user_input, n)} points. Total points: {total_score}\n") 
+                total_score += getWordScore(word, n)
+                new_hand = updateHand(new_hand, word)
+                print(f"{word} earned {getWordScore(word, n)} points. Total points: {total_score}\n") 
                 
     return f"You ran out of letters. Total score: {total_score} points."
 
@@ -274,11 +275,25 @@ def playGame(wordList):
  
     2) When done playing the hand, repeat from step 1    
     """
-    # TO DO ... <-- Remove this comment when you code this function
-    print("playGame not yet implemented.") # <-- Remove this line when you code the function
+    dealt_hand = None
+
+    while True:
+        user_input = input("Enter n to deal a new hand, r to replay the last hand, or e to end game: ")
+
+        if user_input == "e":
+            break
+        elif user_input == "r":
+            if dealt_hand == None:
+                print("You have not played a hand yet. Please play a new hand first!")
+            else:
+                playHand(dealt_hand, wordList, HAND_SIZE)
+        elif user_input == "n":
+            dealt_hand = dealHand(HAND_SIZE)
+            playHand(dealt_hand, wordList, HAND_SIZE)
+        else:
+            print("Invalid command.")
+            continue
    
-
-
 
 #
 # Build data structures used for entire session and play game

@@ -1,6 +1,6 @@
+#### playGame CODE IS FREAKING AWFUL, PLEASE REFACTOR
 from ps4a import *
 import time
-
 
 #
 #
@@ -124,8 +124,47 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    print("playGame not yet implemented.") # <-- Remove this when you code this function
+    dealt_hand = None
+
+    while True:
+        user_input = input("Enter n to deal a new hand, r to replay the last hand, or e to end game: ")
+
+        if user_input == "e":
+            break
+        elif user_input == "r":
+            if dealt_hand == None:
+                print("You have not played a hand yet. Please play a new hand first!")
+                continue
+            else:
+                while True:
+                    player_input = input("Enter u to have yourself play, c to have the computer play: ")
+                    if player_input == "c" or player_input == "u":
+                        break
+                    else:
+                        print("Invalid command.")
+                        continue
+
+                if player_input == "c":
+                    compPlayHand(dealt_hand, wordList, HAND_SIZE)
+                else:
+                    playHand(dealt_hand, wordList, HAND_SIZE)
+        elif user_input == "n":
+            dealt_hand = dealHand(HAND_SIZE)
+            while True:
+                    player_input = input("Enter u to have yourself play, c to have the computer play: ")
+                    if player_input == "c" or player_input == "u":
+                        break
+                    else:
+                        print("Invalid command.")
+                        continue
+        
+            if player_input == "c":
+                compPlayHand(dealt_hand, wordList, HAND_SIZE)
+            else:
+                playHand(dealt_hand, wordList, HAND_SIZE)
+        else:
+            print("Invalid command.")
+            continue
 
         
 #
