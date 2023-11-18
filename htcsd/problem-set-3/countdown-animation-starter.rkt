@@ -60,26 +60,27 @@
 
 ;; Main function
 ;; Count -> Count
-;; Start the world with (main 10)
+;; Start the world with (main 11)
 (define (main c)
-  (big-bang c                  ; Count
-            (on-tick countdown); Count -> Count
-            (to-draw render))) ; Count -> Image 
+  (big-bang c                           ; Count
+            (on-tick countdown SPEED)   ; Count -> Count
+            (to-draw render)            ; Count -> Image
+            (on-key  handle-key)))      ; KeyEvent -> Count         
 
 ;; Helpers
 ;; 1.1) Countdown function
-;; a_ Signature: Count -> Count 
+;; a_ Signature: Count -> Count
 ;; b_ Purpose statement: The function consumes the current countdown number,
 ;;                       substracks one, and returns the new count.
 ;; c_ Stub: (define (countdown 0) 0)
 
 ;; 1.3) Examples
-;; a_ Calling (countdown 10) should return the number 9. 
+;; a_ Calling (countdown 10) should return the number 9.
 ;; b_ Calling (countdown 5) should return the number 4.
 ;; c_ Calling (countdown 0) should return the number 0.
 ;; d_ Calling (countdown 33) should return the number 10.
 
-;; 1.4) Template: <use template from Count> 
+;; 1.4) Template: <use template from Count>
 
 ;; 1.5) Definition
 (define (countdown c)
@@ -88,27 +89,51 @@
     [(> c 10) 10]
     [else (- c 1)]))
 
-;; 6) Testing
+;; 1.6) Testing
 (check-expect (countdown 10) 9) ; as per 1.3)a_
 (check-expect (countdown 5) 4) ; as per 1.3)b_
 (check-expect (countdown 0) 0) ; as per 1.3)c_
 (check-expect (countdown 33) 10) ; as per 1.3)d_
 
 ;; 2.1) Render function
-;; a_ Signature: Count -> Image 
+;; a_ Signature: Count -> Image
 ;; b_ Purpose statement: The function consumes the current number in a countdown
 ;;                       and returns an image.
 ;; c_ Stub: (define (render 0) 0)
 
 ;; 2.3) Examples
 ;; a_ Calling (render 9) should return
-;;    (place-image (text (number->string 9) 50 "black") X-POSITION Y-POSITION MTS)). 
+;;    (place-image (text (number->string 9) 50 "black") X-POSITION Y-POSITION MTS)).
 
-;; 2.4) Template: <use template from Count> 
+;; 2.4) Template: <use template from Count>
 
 ;; 2.5) Definition
 (define (render c)
   (place-image (text (number->string c) 50 "black") X-POSITION Y-POSITION MTS))
 
-;; 6) Testing
-(check-expect (render 9) (place-image (text (number->string 9) 50 "black") X-POSITION Y-POSITION MTS)) ; as per 2.3)a_
+;; 2.6) Testing
+(check-expect
+  (render 9) (place-image
+               (text (number->string 9) 50 "black")
+               X-POSITION
+               Y-POSITION MTS)) ; as per 2.3)a_
+
+;; 3.1) Handle Key function
+;; a_ Signature: KeyEvent -> Count
+;; b_ Purpose statement: The function listens for a key-press, specifically
+;;                       the space key, and resets the counter to 10.
+;; c_ Stub: (define (handle-key "a") 10)
+
+;; 3.3) Examples
+;; a_ Calling (handle-key 0 " ") should return 10.
+;; b_ Calling (handle-key 6 "a") should return 6.
+
+;; 3.4) Template: <use template from Count>
+
+;; 3.5) Definition
+(define (handle-key c ke)
+  (if (key=? ke " ") 10 c))
+
+;; 3.6) Testing
+(check-expect (handle-key 0 " ") 10) ; as per 3.3)a_
+(check-expect (handle-key 5 "a") 5)   ; as per 3.3)b_
