@@ -1,3 +1,4 @@
+#lang htdp/bsl
 ;; movie-starter.rkt
 
 ;; =================
@@ -54,7 +55,8 @@
 
 
 ;; Signature: Movie -> String
-;; Purpose statement: The function consumes two movies and returns the most recently released one.
+;; Purpose statement: The function consumes two movies and returns the most
+;;                    recently released one.
 ;; Stub: (define (pick-movie M1 M2) "Resident Evil")
 
 ;; Examples/Tests:
@@ -67,3 +69,4 @@
   (if (< (movie-year M1) (movie-year M2))
       (movie-title M2)
       (movie-title M1)))
+

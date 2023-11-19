@@ -1,3 +1,4 @@
+#lang htdp/bsl
 ;; student-starter.rkt
 
 ;; =================
@@ -46,7 +47,8 @@
 
 
 ;; Signature: Student -> Boolean
-;; Purpose statement: The function consumes a Student and returns true if said student is in grade 6 or bellow and has allergies.
+;; Purpose statement: The function consumes a Student and returns true
+;;                    if said student is in grade 6 or bellow and has allergies.
 ;; Stub: (define (add-to-list? S1) false)
 
 ;; Examples/Tests:
@@ -59,3 +61,4 @@
 ;; Definition:
 (define (add-to-list? s)
   (and (<(student-grade s) 7) (student-allergies s)))
+
