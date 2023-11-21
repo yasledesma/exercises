@@ -126,7 +126,7 @@
 ;; Definition:
 (define (render f)
   (place-image
-   (above FLOWER-IMG(line 0 (flower-stem-length f) "black"))
+   (above FLOWER-IMG (line 0 (flower-stem-length f) "black"))
    (flower-x f)
    (flower-y f)
    MTS))
