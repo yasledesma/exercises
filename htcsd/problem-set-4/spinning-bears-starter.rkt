@@ -27,8 +27,6 @@
 ; with only material up through compound. 
 ; 
 ; Once this is working you should expand the program to include an arbitrary number of bears.
-; 
-; Here is an image of a bear for you to use: .
 
 
 ;; ====================
@@ -40,7 +38,18 @@
 (define SPEED 0.5)
 (define WNAME "World of Spinning")
 ;; you'll have to make an actual bear image
-(define BIMG .)
+(define BIMG (underlay/offset (beside (overlay (circle 7 "solid" "lightorange") (circle 15 "solid" "lightbrown"))
+                         (rectangle 10 0 "solid" "transparent")
+                         (overlay (circle 7 "solid" "lightorange") (circle 15 "solid" "lightbrown")))
+                  0 20
+                  (underlay/offset (scene+curve (circle 25 "solid" "lightbrown")
+                                                10 30 -90 1/3
+                                                40 30 90 1/3
+                                                "black")
+                   0 -5
+                   (underlay/offset (circle 5 "solid" "black")
+                                   -20 0
+                                   (circle 5 "solid" "black")))))
 
 
 ;; ====================
