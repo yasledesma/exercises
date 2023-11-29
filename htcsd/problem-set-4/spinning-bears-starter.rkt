@@ -131,12 +131,15 @@
                (cons (make-bear 56 125 0)
                     (cons (make-bear 25 25 -89)
                           empty)))
-               (place-images
-                (list (rotate (bear-angle (make-bear 56 125 0)) BIMG)
-                      (rotate (bear-angle (make-bear 25 25 -89)) BIMG))
-                (list (make-posn (bear-x (make-bear 56 125 0)) (bear-y (make-bear 56 125 0)))
-                      (make-posn (bear-x (make-bear 25 25 -89)) (bear-y (make-bear 25 25 -89))))
-                MTS)) ; render list with multiple elements
+               (place-image
+                (rotate (bear-angle (make-bear 56 125 0)) BIMG)
+                (bear-x (make-bear 56 125 0))
+                (bear-y (make-bear 56 125 0))
+                (place-image
+                 (rotate (bear-angle (make-bear 25 25 -89)) BIMG)
+                 (bear-x (make-bear 25 25 -89))
+                 (bear-y (make-bear 25 25 -89))
+                 MTS))) ; render list with multiple elements
 
 ;; Template: <use template from ListOfBear> 
 
@@ -144,12 +147,11 @@
 (define (render-bears lob)
   (cond [(empty? lob) MTS]
         [else
-         (place-images
-                (cons (bear-image (first lob))
-                      (render-bears (rest lob))) ;; since this is not right,
-                (cons (bear-pos (first lob))     ;; maybe read the accumulators
-                      (render-bears (rest lob))) ;; section?
-                MTS)]))
+          (place-image
+          (bear-image (first lob)) ; perhaps is fine to
+          (bear-x (first lob))     ; only have a function
+          (bear-y (first lob))     ; for the image
+          (render-bears (rest lob)))]))
 
 ;; Define: bear-image
 ;; Signature: Bear -> Image
@@ -169,25 +171,6 @@
 ;; Definition:
 (define (bear-image b)
   (rotate (bear-angle b) BIMG))
-
-;; Define: bear-pos
-;; Signature: Bear -> Position
-;; Purpose statement: The function consumes a Bear and returns its position.
-;; Stub: (define (bear-image (make-bear 0 0 0)) (make-posn 0 0)
-
-;; Examples/Tests:
-;; standard image angle
-(check-expect (bear-pos B1) (make-posn 120 50))
-;; image rotated halfway
-(check-expect (bear-pos B2) (make-posn (/ WIDTH 2) (/ HEIGHT 2)))
-;; image fully rotated
-(check-expect (bear-pos B3) (make-posn 0 0))
-
-;; Template: <use template from Bear> 
-
-;; Definition:
-(define (bear-pos b)
-  (make-posn (bear-x b) (bear-y b)))
 
 ;; ;; Define: handle-click
 ;; ;; Signature: ListOfBear LOBKeyEvent -> ListOfBear
