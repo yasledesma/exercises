@@ -61,22 +61,22 @@
 ;; DATA DEFINITIONS
 ;; ====================
 (define-struct bear (x y angle))
-;; Type: Bear is (make-bear Integer Integer Integer[-360,0])
+;; Type: Bear is (make-bear Integer Integer Integer[0,360])
 ;; Interpretation: Position and current angle of rotation of a bear.
 ;; Examples:
 ;; somewhere in the canvas + start angle
 (define B1 (make-bear 120 50 0))
 ;; middle of canvas + halfway rotation
-(define B2 (make-bear (/ WIDTH 2) (/ HEIGHT 2) -180))
+(define B2 (make-bear (/ WIDTH 2) (/ HEIGHT 2) 180))
 ;; top corner of canvas + full rotation
-(define B3 (make-bear 0 0 -360))
+(define B3 (make-bear 0 0 360))
 
 #;
 ;; Template:
 (define (fn-for-bear b)
   (... (bear-x     b)   ; Integer
        (bear-y     b)   ; Integer
-       (bear-angle b))) ; Integer[-360,0]
+       (bear-angle b))) ; Integer[0,360]
 
 ;; Template rules:
 ;;    - compount: 3 fields
@@ -134,16 +134,16 @@
 (check-expect (render-bears empty) MTS) ; render empty list
 (check-expect (render-bears
                (cons (make-bear 56 125 0)
-                    (cons (make-bear 25 25 -89)
+                    (cons (make-bear 25 25 89)
                           empty)))
                (place-image
                 (rotate (bear-angle (make-bear 56 125 0)) BIMG)
                 (bear-x (make-bear 56 125 0))
                 (bear-y (make-bear 56 125 0))
                 (place-image
-                 (rotate (bear-angle (make-bear 25 25 -89)) BIMG)
-                 (bear-x (make-bear 25 25 -89))
-                 (bear-y (make-bear 25 25 -89))
+                 (rotate (bear-angle (make-bear 25 25 89)) BIMG)
+                 (bear-x (make-bear 25 25 89))
+                 (bear-y (make-bear 25 25 89))
                  MTS))) ; render list with multiple elements
 
 ;; Template: <use template from ListOfBear> 
@@ -186,22 +186,22 @@
  ;; Examples/Tests:
  (check-expect (rotate-bears
                 (cons (make-bear 0 0 0) empty))
-               (cons (make-bear 0 0 -1) empty)) ; standard
+               (cons (make-bear 0 0 1) empty)) ; standard
  (check-expect (rotate-bears
-                (cons (make-bear 56 25 -179)
+                (cons (make-bear 56 25 179)
                       (cons (make-bear 0 0 0)
                             empty)))
-               (cons (make-bear 56 25 -180)
-                     (cons (make-bear 0 0 -1)
+               (cons (make-bear 56 25 180)
+                     (cons (make-bear 0 0 1)
                            empty))) ; half LOB rotation
  (check-expect (rotate-bears
-                (cons (make-bear 125 400 -360)
-                     (cons (make-bear 56 25 -179)
+                (cons (make-bear 125 400 360)
+                     (cons (make-bear 56 25 179)
                      (cons (make-bear 0 0 0)
                            empty))))
                (cons (make-bear 125 400 0)
-                     (cons (make-bear 56 25 -180)
-                     (cons (make-bear 0 0 -1)
+                     (cons (make-bear 56 25 180)
+                     (cons (make-bear 0 0 1)
                            empty)))) ; full LOB rotation
  
  ;; Template: <use template from ListOfBear> 
@@ -222,20 +222,20 @@
 ;;                         (make-bear 0 0 -1))
  
 ;; Examples/Tests:
-(check-expect (rotate-bear (make-bear 125 400 -360))
+(check-expect (rotate-bear (make-bear 125 400 360))
               (make-bear 125 400 0))
-(check-expect (rotate-bear (make-bear 0 0 -179))
-              (make-bear 0 0 -180))
+(check-expect (rotate-bear (make-bear 0 0 179))
+              (make-bear 0 0 180))
 (check-expect (rotate-bear (make-bear 355 125 0))
-              (make-bear 355 125 -1))
+              (make-bear 355 125 1))
  
 ;; Template: <use template from Bear> 
  
 ;; Definition:
 (define (rotate-bear b)
-  (if (or (<= (bear-angle b) -360) (> (bear-angle b) 0))
+  (if (or (>= (bear-angle b) 360) (< (bear-angle b) 0))
       (make-bear (bear-x b) (bear-y b) 0)
-      (make-bear (bear-x b) (bear-y b) (- (bear-angle b) 1))))
+      (make-bear (bear-x b) (bear-y b) (add1 (bear-angle b)))))
 
 ;; Define: handle-click
 ;; Signature: ListOfBear Integer Integer LOBKeyEvent -> ListOfBear
@@ -251,10 +251,10 @@
 ;; wrong event, don't do anything
 (check-expect (handle-click empty 250 122 "a") empty)
 ;; add to list with one element
-(check-expect (handle-click (cons (make-bear 25 25 -89)
+(check-expect (handle-click (cons (make-bear 25 25 89)
                                   empty) 56 125 "button-down")
               (cons (make-bear 56 125 0)
-                    (cons (make-bear 25 25 -89)
+                    (cons (make-bear 25 25 89)
                           empty)))
  
 ;; Template: <use template from MouseEvent large enumeration>
